@@ -5,6 +5,17 @@ project(tcp_client VERSION 0.1.0 LANGUAGES C CXX)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
+# Use FetchContent to include Boost
+include(FetchContent)
+FetchContent_Declare(
+    boost
+    GIT_REPOSITORY https://github.com/boostorg/boost.git
+    GIT_TAG boost-1.87.0
+)
+
+# Ensure Boost is downloaded and available
+FetchContent_MakeAvailable(boost)
+
 add_executable(client1 src/client1.cpp)
 
 # Include Boost headers
