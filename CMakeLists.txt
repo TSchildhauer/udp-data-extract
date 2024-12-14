@@ -16,11 +16,16 @@ FetchContent_Declare(
 # Ensure Boost is downloaded and available
 FetchContent_MakeAvailable(boost)
 
-add_executable(client1 src/client1.cpp)
+# Find pthread for POSIX threading
+find_package(Threads REQUIRED)
+
+add_executable(client1 src/client.cpp src/aggregate.cpp src/main.cpp)
 
 # Include Boost headers
-target_include_directories(client1 PRIVATE ${Boost_INCLUDE_DIRS})
+target_include_directories(client1 PRIVATE include ${Boost_INCLUDE_DIRS})
 
+# Link posix libraries that boost wants to use
+target_link_libraries(client1 PRIVATE Threads::Threads)
 
 # Add testing support
 #include(CTest)
