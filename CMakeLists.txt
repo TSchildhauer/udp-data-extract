@@ -36,7 +36,7 @@ FetchContent_MakeAvailable(boost)
 # Find pthread for POSIX threading
 find_package(Threads REQUIRED)
 
-add_executable(client1 src/client.cpp src/aggregate.cpp src/main.cpp)
+add_executable(client1 src/client.cpp src/aggregate.cpp src/client1_main.cpp)
 
 # Include Boost headers
 target_include_directories(client1 PRIVATE include ${boost_SOURCE_DIR})
