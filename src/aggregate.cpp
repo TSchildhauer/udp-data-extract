@@ -1,7 +1,9 @@
 #include "aggregate.hpp"
 
 #include <boost/asio.hpp>
-// #include <boost/json.hpp>
+#define BOOST_JSON_STACK_BUFFER_SIZE 1024
+#define BOOST_JSON_SEPARATE_COMPILATION
+#include <boost/json/src.hpp>
 #include <iostream>
 #include <memory>
 #include <mutex>
