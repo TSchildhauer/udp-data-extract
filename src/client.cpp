@@ -42,6 +42,8 @@ std::string Client::get_last_data()
 
 void Client::do_read()
 {
+    // TODO: Choose appropriate buffer size
+    // Buffer is a shared pointer to avoid copies in the lambda.
     auto buffer = std::make_shared<std::vector<char>>(1024);
     socket_.async_read_some(
         boost::asio::buffer(*buffer),
@@ -49,7 +51,11 @@ void Client::do_read()
             if (!ec) {
                 // Store the most recent data
                 std::lock_guard<std::mutex> lock(data_mutex_);
-                last_data_ = std::string(buffer->data(), length);
+                if (buffer->at(length-1) == '\n') {
+                    last_data_ = std::string(buffer->data(), length-1);
+                } else {
+                    last_data_ = std::string(buffer->data(), length);
+                }
 
                 // Continue reading
                 do_read();
