@@ -32,7 +32,7 @@ void Client::start()
 std::string Client::get_last_data()
 {
     std::lock_guard<std::mutex> lock(data_mutex_);
-    std::string ret = "--";
+    std::string ret = "";//"--";
     if (last_data_.size()) {
         ret = last_data_;
         last_data_.clear();
