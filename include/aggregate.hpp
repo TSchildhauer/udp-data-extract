@@ -22,6 +22,7 @@ private:
     std::vector<std::unique_ptr<Client>> clients_;
 
     // members
+    std::chrono::steady_clock::time_point next_execution_time_;
     Clock steady_synced_clock_; // starts at system time but never jumps
 
     void schedule_next_spin();

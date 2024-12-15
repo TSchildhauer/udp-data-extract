@@ -27,12 +27,14 @@ void Aggregate::spin()
     for (auto& client : clients_) {
         client->start();
     }
+    next_execution_time_ = std::chrono::steady_clock::now();
     schedule_next_spin();
 }
 
 void Aggregate::schedule_next_spin()
 {
-    timer_.expires_after(window_ms_);
+
+    timer_.expires_at(next_execution_time_);
     timer_.async_wait([this](boost::system::error_code ec) {
         if (!ec) {
             // Create the JSON object
@@ -50,7 +52,7 @@ void Aggregate::schedule_next_spin()
             // std::cout << json::serialize(output) << std::endl;
             std::cout << out << std::endl;
 
-            // Schedule the next spin
+            next_execution_time_ += window_ms_;
             schedule_next_spin();
         }
     });
