@@ -36,7 +36,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 # Install only the runtime dependencies
 RUN apt-get update && apt-get install -y \
     libssl-dev \
-    libboost-system1.81.0 \
+    libboost-all-dev \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
