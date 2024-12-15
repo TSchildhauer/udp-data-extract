@@ -2,6 +2,8 @@
 #define AGGREGATE_HPP
 
 #include "client.hpp"
+#include "clock.hpp"
+
 #include <boost/asio.hpp>
 #include <vector>
 #include <memory>
@@ -18,6 +20,9 @@ private:
     const std::chrono::milliseconds window_ms_;
     boost::asio::steady_timer timer_;
     std::vector<std::unique_ptr<Client>> clients_;
+
+    // members
+    Clock steady_synced_clock_; // starts at system time but never jumps
 
     void schedule_next_spin();
 };

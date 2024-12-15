@@ -7,7 +7,7 @@
 #include <vector>
 #include <memory>
 #include <mutex>
-#include <chrono>
+// #include <chrono>
 #include <thread>
 
 using boost::asio::ip::tcp;
@@ -39,7 +39,7 @@ void Aggregate::schedule_next_spin()
                 // json::object output;
                 // output["timestamp"] = current_timestamp();
 
-                std::string out;
+                std::string out = "t: "+std::to_string(steady_synced_clock_.steady_now_ms().count())+", ";
 
                 // extract_data destroys it, so this reference can't be const
                 for (auto & c : clients_) {
