@@ -13,7 +13,7 @@
 #include <thread>
 
 using boost::asio::ip::tcp;
-// namespace json = boost::json;
+namespace json = boost::json;
 
 Aggregate::Aggregate(boost::asio::io_context& io_context, const std::chrono::milliseconds& window_ms, const std::string& host, const std::vector<std::pair<uint16_t, std::string>>& inputs)
     : window_ms_(window_ms)
@@ -40,19 +40,20 @@ void Aggregate::schedule_next_spin()
     timer_.async_wait([this](boost::system::error_code ec) {
         if (!ec) {
             // Create the JSON object
-            // json::object output;
-            // output["timestamp"] = current_timestamp();
+            json::object output;
+            output["timestamp"] = steady_synced_clock_.steady_now_ms().count();
 
-            std::string out = "t: " + std::to_string(steady_synced_clock_.steady_now_ms().count()) + ", ";
+            // std::string out = "t: " + std::to_string(steady_synced_clock_.steady_now_ms().count()) + ", ";
 
             // extract_data destroys it, so this reference can't be const
             for (auto& c : clients_) {
-                out += c->get_name() + ": " + c->get_last_data() + ", ";
+                // out += c->get_name() + ": " + c->get_last_data() + ", ";
+                output[c->get_name()] = c->get_last_data();
             }
 
             // Print the JSON object as a line
-            // std::cout << json::serialize(output) << std::endl;
-            std::cout << out << std::endl;
+            std::cout << json::serialize(output) << std::endl;
+            // std::cout << out << std::endl;
 
             next_execution_time_ += window_ms_;
             schedule_next_spin();

@@ -17,7 +17,7 @@ add_executable(client1 src/client.cpp src/aggregate.cpp src/client1_main.cpp)
 target_include_directories(client1 PRIVATE include ${Boost_INCLUDE_DIRS})
 
 # Link posix libraries that boost wants to use
-target_link_libraries(client1 PRIVATE Threads::Threads)
+target_link_libraries(client1 PRIVATE Threads::Threads Boost::json)
 
 # Add standalone json support
 # target_compile_definitions(client1 PRIVATE BOOST_JSON_STANDALONE)
