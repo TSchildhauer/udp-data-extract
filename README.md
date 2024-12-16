@@ -2,6 +2,26 @@
 Listen to UDP ports and parse data
 
 ## Requirements
+Requires boost asio and boost json to be installed (boost v 1.75.0+)
+Docker container is provided to build. Requirements are only build-time, not run-time.
+
+## Build and run
+*Build:*
+```
+cd /path/to/project
+docker build -t udp-data-extract .
+```
+
+*Run:*
+```
+docker run -it --network="host" udp-data-extract
+```
+
+## Description
+The app will launch a client `client1` and will listen on TCP ports 4001-4003. It will aggregate data into json and dump it to stdout every 100ms.
+
+Design choices: Use boost asio for async reads at high performance, use boost json for json parsing, implements a steady clock that syncs with system time on boot, but will not jump if system time changes. It will slowly drift away from system time if left running for a long time. This choice is made to ensure exact time windows between reads.
+Next read is scheduled based on last intended read time, so the processing time of the reads and outputs will not interfere with strict scheduling.
 
 
 ## Helpful Tools
@@ -26,3 +46,9 @@ The tcp stream appears to be sending 3 signals:
 A visualisation of the data can be seen below:
 
 ![Plot of data](./data_plot.png)
+
+## Next
+Task 2 should be relatively straightforward to implement as long as objects and values on the publishing service are easy to understand.
+
+Many small improvements are still envisioned such as moving to optionals for `Client.last_data_` and possibly templating the client to accept inputs other than std::string.
+Data parsing needs to be performed. Aggregate currently writes the data, but should instead make it available giving the user choice of what to do.
