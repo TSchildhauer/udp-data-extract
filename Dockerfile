@@ -45,6 +45,7 @@ WORKDIR /app
 
 # Copy the built project from the build stage
 COPY --from=build /app/build/client1 /app/client1
+COPY --from=build /app/build/client2 /app/client2
 
 # Specify the entry point to handle signals properly
-ENTRYPOINT ["/app/client1"]
+ENTRYPOINT ["/app/client2"]

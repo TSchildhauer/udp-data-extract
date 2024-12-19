@@ -22,6 +22,18 @@ target_link_libraries(client1 PRIVATE Threads::Threads Boost::json)
 # Add standalone json support
 # target_compile_definitions(client1 PRIVATE BOOST_JSON_STANDALONE)
 
+## Client 2
+add_executable(client2 src/client.cpp src/aggregate.cpp src/client2_main.cpp)
+
+# Include Boost headers
+target_include_directories(client2 PRIVATE include ${Boost_INCLUDE_DIRS})
+
+# Link posix libraries that boost wants to use
+target_link_libraries(client2 PRIVATE Threads::Threads Boost::json)
+
+# Add standalone json support
+# target_compile_definitions(client2 PRIVATE BOOST_JSON_STANDALONE)
+
 # Add testing support
 #include(CTest)
 #enable_testing()
